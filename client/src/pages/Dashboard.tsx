@@ -59,7 +59,7 @@ export default function Dashboard() {
               <motion.div variants={item}>
                 <StatsCard 
                   title="Total Yarn In" 
-                  value={`${stats?.totalYarnKg.toLocaleString()} kg`} 
+                  value={`${(stats?.totalYarnKg ?? 0).toLocaleString()} kg`} 
                   icon={PackageSearch} 
                   trend="+12%" 
                   trendUp={true}
@@ -69,7 +69,7 @@ export default function Dashboard() {
               <motion.div variants={item}>
                 <StatsCard 
                   title="Fabric Knitted" 
-                  value={`${stats?.totalFabricKg.toLocaleString()} kg`} 
+                  value={`${(stats?.totalFabricKg ?? 0).toLocaleString()} kg`} 
                   icon={ScrollText}
                   className="border-l-4 border-l-violet-500"
                 />
@@ -77,7 +77,7 @@ export default function Dashboard() {
               <motion.div variants={item}>
                 <StatsCard 
                   title="Pieces Cut" 
-                  value={stats?.totalCutPieces.toLocaleString()} 
+                  value={(stats?.totalCutPieces ?? 0).toLocaleString()} 
                   icon={Scissors}
                   className="border-l-4 border-l-pink-500"
                 />
@@ -85,7 +85,7 @@ export default function Dashboard() {
               <motion.div variants={item}>
                 <StatsCard 
                   title="Garments Stitched" 
-                  value={stats?.totalStitchedPieces.toLocaleString()} 
+                  value={(stats?.totalStitchedPieces ?? 0).toLocaleString()} 
                   icon={Shirt}
                   className="border-l-4 border-l-emerald-500"
                 />
@@ -93,7 +93,7 @@ export default function Dashboard() {
               <motion.div variants={item}>
                 <StatsCard 
                   title="Boxes Packed" 
-                  value={stats?.totalPackedPieces.toLocaleString()} 
+                  value={(stats?.totalPackedPieces ?? 0).toLocaleString()} 
                   icon={Package}
                   className="border-l-4 border-l-amber-500"
                 />
