@@ -17,6 +17,7 @@ export const knittingJobs = pgTable("knitting_jobs", {
   id: serial("id").primaryKey(),
   yarnBatchId: integer("yarn_batch_id").references(() => yarnBatches.id),
   fabricType: text("fabric_type").notNull(), // e.g., Jersey, Fleece
+  size: text("size").notNull().default("Mixed"), // Added size
   weightUsed: real("weight_used").notNull(),
   fabricProduced: real("fabric_produced").notNull(), // output weight
   status: text("status").default("completed"),
@@ -28,6 +29,7 @@ export const cuttingJobs = pgTable("cutting_jobs", {
   id: serial("id").primaryKey(),
   knittingJobId: integer("knitting_job_id").references(() => knittingJobs.id),
   styleCode: text("style_code").notNull(), // e.g., SHIRT-V-NECK
+  size: text("size").notNull(), // Added size
   quantityPieces: integer("quantity_pieces").notNull(),
   wasteKg: real("waste_kg").default(0),
   completedAt: timestamp("completed_at").defaultNow(),
@@ -37,6 +39,7 @@ export const cuttingJobs = pgTable("cutting_jobs", {
 export const stitchingJobs = pgTable("stitching_jobs", {
   id: serial("id").primaryKey(),
   cuttingJobId: integer("cutting_job_id").references(() => cuttingJobs.id),
+  size: text("size").notNull(), // Added size
   quantityStitched: integer("quantity_stitched").notNull(),
   rejectedCount: integer("rejected_count").default(0),
   completedAt: timestamp("completed_at").defaultNow(),
@@ -46,6 +49,7 @@ export const stitchingJobs = pgTable("stitching_jobs", {
 export const pressingJobs = pgTable("pressing_jobs", {
   id: serial("id").primaryKey(),
   stitchingJobId: integer("stitching_job_id").references(() => stitchingJobs.id),
+  size: text("size").notNull(), // Added size
   quantityPressed: integer("quantity_pressed").notNull(),
   completedAt: timestamp("completed_at").defaultNow(),
 });
@@ -54,6 +58,7 @@ export const pressingJobs = pgTable("pressing_jobs", {
 export const packingJobs = pgTable("packing_jobs", {
   id: serial("id").primaryKey(),
   pressingJobId: integer("pressing_job_id").references(() => pressingJobs.id),
+  size: text("size").notNull(), // Added size
   boxCount: integer("box_count").notNull(),
   quantityPacked: integer("quantity_packed").notNull(),
   completedAt: timestamp("completed_at").defaultNow(),

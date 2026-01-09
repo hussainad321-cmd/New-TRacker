@@ -21,6 +21,7 @@ export default function Pressing() {
     resolver: zodResolver(insertPressingJobSchema),
     defaultValues: {
       stitchingJobId: 0,
+      size: "M",
       quantityPressed: 0,
     }
   });
@@ -74,6 +75,19 @@ export default function Pressing() {
                     />
                   </div>
                   <div className="space-y-2">
+                    <label className="text-sm font-medium">Size</label>
+                    <Select onValueChange={(val) => form.setValue("size", val)} defaultValue="M">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["S", "M", "L", "XL", "XXL"].map(s => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
                     <label className="text-sm font-medium">Quantity Pressed</label>
                     <Input type="number" {...form.register("quantityPressed")} />
                   </div>
@@ -90,6 +104,7 @@ export default function Pressing() {
             data={jobs}
             columns={[
               { header: "ID", accessor: "id", className: "w-16" },
+              { header: "Size", accessor: "size" },
               { header: "Source Batch", accessor: (row) => `Stitching #${row.stitchingJobId}` },
               { header: "Quantity Pressed", accessor: (row) => <span className="font-bold">{row.quantityPressed} pcs</span> },
               { header: "Operator", accessor: () => "Unknown" }, // Placeholder for future feature

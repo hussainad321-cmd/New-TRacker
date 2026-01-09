@@ -22,6 +22,7 @@ export default function Cutting() {
     defaultValues: {
       knittingJobId: 0,
       styleCode: "",
+      size: "M",
       quantityPieces: 0,
       wasteKg: 0,
     }
@@ -79,6 +80,19 @@ export default function Cutting() {
                     <label className="text-sm font-medium">Style Code</label>
                     <Input {...form.register("styleCode")} placeholder="e.g. T-SHIRT-V-01" />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Size</label>
+                    <Select onValueChange={(val) => form.setValue("size", val)} defaultValue="M">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["S", "M", "L", "XL", "XXL"].map(s => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Pieces Cut</label>
@@ -103,6 +117,7 @@ export default function Cutting() {
             columns={[
               { header: "ID", accessor: "id", className: "w-16" },
               { header: "Style Code", accessor: "styleCode", className: "font-mono font-bold text-primary" },
+              { header: "Size", accessor: "size" },
               { header: "Source Job", accessor: (row) => `Knitting #${row.knittingJobId}` },
               { header: "Pieces Cut", accessor: (row) => <span className="font-semibold">{row.quantityPieces} pcs</span> },
               { header: "Waste", accessor: (row) => <span className="text-red-500">{row.wasteKg} kg</span> },

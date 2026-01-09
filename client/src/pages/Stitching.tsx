@@ -21,6 +21,7 @@ export default function Stitching() {
     resolver: zodResolver(insertStitchingJobSchema),
     defaultValues: {
       cuttingJobId: 0,
+      size: "M",
       quantityStitched: 0,
       rejectedCount: 0,
     }
@@ -74,6 +75,19 @@ export default function Stitching() {
                       )}
                     />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Size</label>
+                    <Select onValueChange={(val) => form.setValue("size", val)} defaultValue="M">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["S", "M", "L", "XL", "XXL"].map(s => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Quantity Stitched</label>
@@ -97,6 +111,7 @@ export default function Stitching() {
             data={jobs}
             columns={[
               { header: "ID", accessor: "id", className: "w-16" },
+              { header: "Size", accessor: "size" },
               { header: "Source Batch", accessor: (row) => `Cut #${row.cuttingJobId}` },
               { header: "Good Output", accessor: (row) => <span className="font-bold text-green-700">{row.quantityStitched} pcs</span> },
               { header: "Defects", accessor: (row) => <span className={row.rejectedCount ? "text-red-500 font-medium" : "text-muted-foreground"}>{row.rejectedCount} pcs</span> },

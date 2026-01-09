@@ -22,6 +22,7 @@ export default function Knitting() {
     defaultValues: {
       yarnBatchId: 0,
       fabricType: "",
+      size: "Mixed",
       weightUsed: 0,
       fabricProduced: 0,
       status: "completed",
@@ -80,6 +81,19 @@ export default function Knitting() {
                     <label className="text-sm font-medium">Fabric Type</label>
                     <Input {...form.register("fabricType")} placeholder="e.g. Single Jersey" />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Size</label>
+                    <Select onValueChange={(val) => form.setValue("size", val)} defaultValue="Mixed">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["S", "M", "L", "XL", "XXL", "Mixed"].map(s => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Yarn Used (Kg)</label>
@@ -104,6 +118,7 @@ export default function Knitting() {
             columns={[
               { header: "Job ID", accessor: "id", className: "w-16" },
               { header: "Fabric Type", accessor: "fabricType", className: "font-medium" },
+              { header: "Size", accessor: "size" },
               { header: "Yarn Used", accessor: (row) => `${row.weightUsed} Kg` },
               { header: "Fabric Output", accessor: (row) => <span className="text-green-600 font-semibold">{row.fabricProduced} Kg</span> },
               { header: "Status", accessor: (row) => (

@@ -21,6 +21,7 @@ export default function Packing() {
     resolver: zodResolver(insertPackingJobSchema),
     defaultValues: {
       pressingJobId: 0,
+      size: "M",
       boxCount: 0,
       quantityPacked: 0,
     }
@@ -74,6 +75,19 @@ export default function Packing() {
                       )}
                     />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Size</label>
+                    <Select onValueChange={(val) => form.setValue("size", val)} defaultValue="M">
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Size" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {["S", "M", "L", "XL", "XXL"].map(s => (
+                          <SelectItem key={s} value={s}>{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Box Count</label>
@@ -97,6 +111,7 @@ export default function Packing() {
             data={jobs}
             columns={[
               { header: "ID", accessor: "id", className: "w-16" },
+              { header: "Size", accessor: "size" },
               { header: "Source Batch", accessor: (row) => `Pressing #${row.pressingJobId}` },
               { header: "Boxes", accessor: (row) => <span className="font-mono bg-muted px-2 py-1 rounded text-xs">{row.boxCount} boxes</span> },
               { header: "Total Packed", accessor: (row) => <span className="font-bold text-blue-600">{row.quantityPacked} pcs</span> },
