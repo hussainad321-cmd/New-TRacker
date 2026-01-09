@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -20,6 +20,9 @@ export function DialogForm({ trigger, title, children }: DialogFormProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="font-display text-xl">{title}</DialogTitle>
+          <DialogDescription className="sr-only">
+            Form for {title}
+          </DialogDescription>
         </DialogHeader>
         {children(() => setOpen(false))}
       </DialogContent>
