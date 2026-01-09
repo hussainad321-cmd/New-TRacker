@@ -41,10 +41,11 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen bg-background font-body text-foreground">
       <Sidebar />
-      <main className="flex-1 transition-all duration-300">
+      <main className="flex-1 transition-all duration-300 overflow-y-auto">
         <Header title="Production Dashboard" />
         
-        <div className="p-8 max-w-7xl mx-auto space-y-8">
+        <div className="p-8 w-full max-w-7xl mx-auto space-y-8 flex flex-col items-center">
+          <div className="w-full">
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
               {[1, 2, 3, 4].map(i => <div key={i} className="h-32 bg-muted/50 rounded-xl" />)}
@@ -168,6 +169,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </main>

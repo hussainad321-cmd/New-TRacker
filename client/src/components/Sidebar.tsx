@@ -31,7 +31,7 @@ export function Sidebar() {
   return (
     <aside 
       className={cn(
-        "bg-card border-r border-border h-screen flex flex-col fixed left-0 top-0 z-50 shadow-xl transition-all duration-300",
+        "bg-card border-r border-border h-screen flex flex-col transition-all duration-300 shrink-0",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
@@ -45,7 +45,7 @@ export function Sidebar() {
           variant="ghost" 
           size="icon" 
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="ml-auto"
+          className={cn("transition-all", !isCollapsed && "ml-auto")}
         >
           {isCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
         </Button>

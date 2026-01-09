@@ -44,7 +44,8 @@ export default function Knitting() {
       <main className="flex-1 transition-all duration-300">
         <Header title="Knitting Production" />
         
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="p-8 w-full max-w-7xl mx-auto flex flex-col items-center">
+          <div className="w-full">
           <div className="flex justify-end mb-6">
             <DialogForm 
               title="Record Knitting Job"
@@ -129,6 +130,7 @@ export default function Knitting() {
               { header: "Date", accessor: (row) => row.completedAt ? format(new Date(row.completedAt), 'MMM dd, HH:mm') : '-' },
             ]}
           />
+          </div>
         </div>
       </main>
     </div>

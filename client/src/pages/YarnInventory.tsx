@@ -40,7 +40,8 @@ export default function YarnInventory() {
       <main className="flex-1 transition-all duration-300">
         <Header title="Yarn Inventory" />
         
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="p-8 w-full max-w-7xl mx-auto flex flex-col items-center">
+          <div className="w-full">
           <div className="flex justify-end mb-6">
             <DialogForm 
               title="Add New Yarn Batch"
@@ -88,6 +89,7 @@ export default function YarnInventory() {
               { header: "Received", accessor: (row) => row.receivedAt ? format(new Date(row.receivedAt), 'MMM dd, yyyy') : '-' },
             ]}
           />
+          </div>
         </div>
       </main>
     </div>

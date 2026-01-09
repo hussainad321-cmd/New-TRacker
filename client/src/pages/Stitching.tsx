@@ -42,7 +42,8 @@ export default function Stitching() {
       <main className="flex-1 transition-all duration-300">
         <Header title="Stitching Floor" />
         
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="p-8 w-full max-w-7xl mx-auto flex flex-col items-center">
+          <div className="w-full">
           <div className="flex justify-end mb-6">
             <DialogForm 
               title="Record Stitching Batch"
@@ -124,6 +125,7 @@ export default function Stitching() {
               { header: "Date", accessor: (row) => row.completedAt ? format(new Date(row.completedAt), 'MMM dd, HH:mm') : '-' },
             ]}
           />
+          </div>
         </div>
       </main>
     </div>
