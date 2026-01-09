@@ -40,7 +40,7 @@ export default function Cutting() {
   return (
     <div className="flex min-h-screen bg-background font-body text-foreground">
       <Sidebar />
-      <main className="flex-1 ml-64">
+      <main className="flex-1 transition-all duration-300">
         <Header title="Cutting Department" />
         
         <div className="p-8 max-w-7xl mx-auto">

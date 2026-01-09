@@ -14,18 +14,22 @@ import Stitching from "@/pages/Stitching";
 import Pressing from "@/pages/Pressing";
 import Packing from "@/pages/Packing";
 
+import { SidebarProvider } from "@/components/ui/sidebar";
+
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Dashboard} />
-      <Route path="/yarn" component={YarnInventory} />
-      <Route path="/knitting" component={Knitting} />
-      <Route path="/cutting" component={Cutting} />
-      <Route path="/stitching" component={Stitching} />
-      <Route path="/pressing" component={Pressing} />
-      <Route path="/packing" component={Packing} />
-      <Route component={NotFound} />
-    </Switch>
+    <div className="flex min-h-screen w-full">
+      <Switch>
+        <Route path="/" component={Dashboard} />
+        <Route path="/yarn" component={YarnInventory} />
+        <Route path="/knitting" component={Knitting} />
+        <Route path="/cutting" component={Cutting} />
+        <Route path="/stitching" component={Stitching} />
+        <Route path="/pressing" component={Pressing} />
+        <Route path="/packing" component={Packing} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
   );
 }
 
