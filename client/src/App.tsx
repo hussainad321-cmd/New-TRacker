@@ -5,12 +5,25 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
+// Pages
+import Dashboard from "@/pages/Dashboard";
+import YarnInventory from "@/pages/YarnInventory";
+import Knitting from "@/pages/Knitting";
+import Cutting from "@/pages/Cutting";
+import Stitching from "@/pages/Stitching";
+import Pressing from "@/pages/Pressing";
+import Packing from "@/pages/Packing";
+
 function Router() {
   return (
     <Switch>
-      {/* Add pages below */}
-      {/* <Route path="/" component={Home}/> */}
-      {/* Fallback to 404 */}
+      <Route path="/" component={Dashboard} />
+      <Route path="/yarn" component={YarnInventory} />
+      <Route path="/knitting" component={Knitting} />
+      <Route path="/cutting" component={Cutting} />
+      <Route path="/stitching" component={Stitching} />
+      <Route path="/pressing" component={Pressing} />
+      <Route path="/packing" component={Packing} />
       <Route component={NotFound} />
     </Switch>
   );
