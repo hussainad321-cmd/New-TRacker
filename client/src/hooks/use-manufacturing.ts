@@ -19,7 +19,7 @@ export function useYarnBatches() {
 export function useCreateYarnBatch() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: z.infer<typeof api.yarn.create.input>) => {
+    mutationFn: async (data: any) => {
       // Coerce number fields
       const payload = {
         ...data,
@@ -59,7 +59,7 @@ export function useKnittingJobs() {
 export function useCreateKnittingJob() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: z.infer<typeof api.knitting.create.input>) => {
+    mutationFn: async (data: any) => {
       const payload = {
         ...data,
         yarnBatchId: Number(data.yarnBatchId),
@@ -100,7 +100,7 @@ export function useCuttingJobs() {
 export function useCreateCuttingJob() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: z.infer<typeof api.cutting.create.input>) => {
+    mutationFn: async (data: any) => {
       const payload = {
         ...data,
         knittingJobId: Number(data.knittingJobId),
@@ -138,7 +138,7 @@ export function useStitchingJobs() {
 export function useCreateStitchingJob() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: z.infer<typeof api.stitching.create.input>) => {
+    mutationFn: async (data: any) => {
       const payload = {
         ...data,
         cuttingJobId: Number(data.cuttingJobId),
@@ -176,7 +176,7 @@ export function usePressingJobs() {
 export function useCreatePressingJob() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: z.infer<typeof api.pressing.create.input>) => {
+    mutationFn: async (data: any) => {
       const payload = {
         ...data,
         stitchingJobId: Number(data.stitchingJobId),
@@ -213,7 +213,7 @@ export function usePackingJobs() {
 export function useCreatePackingJob() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: z.infer<typeof api.packing.create.input>) => {
+    mutationFn: async (data: any) => {
       const payload = {
         ...data,
         pressingJobId: Number(data.pressingJobId),
