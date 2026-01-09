@@ -1,8 +1,8 @@
-# FabricFlow - Garment Production Management System
+# Everloop Flow - Garment Production Management System
 
 ## Overview
 
-FabricFlow is a full-stack garment manufacturing workflow tracker that monitors the complete production pipeline from raw yarn intake through final packing. The application tracks 6 sequential production stages: Yarn Inventory → Knitting → Cutting → Stitching → Pressing → Packing. Each stage records job data, quantities, and links to previous stages for full traceability.
+Everloop Flow is a full-stack garment manufacturing workflow tracker that monitors the complete production pipeline from raw yarn intake through final packing. The application tracks 6 sequential production stages: Yarn Inventory → Knitting → Cutting → Stitching → Pressing → Packing. Each stage records job data, quantities, and links to previous stages for full traceability.
 
 ## User Preferences
 
