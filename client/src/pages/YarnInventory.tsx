@@ -62,7 +62,7 @@ export default function YarnInventory() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Weight (Kg)</label>
-                    <Input type="number" step="0.01" {...form.register("weightKg")} />
+                    <Input type="number" step="0.01" {...form.register("weightKg", { valueAsNumber: true })} />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Supplier</label>

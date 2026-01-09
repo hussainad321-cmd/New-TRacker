@@ -96,11 +96,11 @@ export default function Cutting() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Pieces Cut</label>
-                      <Input type="number" {...form.register("quantityPieces")} />
+                      <Input type="number" {...form.register("quantityPieces", { valueAsNumber: true })} />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Waste (Kg)</label>
-                      <Input type="number" step="0.01" {...form.register("wasteKg")} />
+                      <Input type="number" step="0.01" {...form.register("wasteKg", { valueAsNumber: true })} />
                     </div>
                   </div>
                   <Button type="submit" className="w-full mt-4" disabled={createMutation.isPending}>

@@ -97,11 +97,11 @@ export default function Knitting() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Yarn Used (Kg)</label>
-                      <Input type="number" step="0.01" {...form.register("weightUsed")} />
+                      <Input type="number" step="0.01" {...form.register("weightUsed", { valueAsNumber: true })} />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Fabric Produced (Kg)</label>
-                      <Input type="number" step="0.01" {...form.register("fabricProduced")} />
+                      <Input type="number" step="0.01" {...form.register("fabricProduced", { valueAsNumber: true })} />
                     </div>
                   </div>
                   <Button type="submit" className="w-full mt-4" disabled={createMutation.isPending}>

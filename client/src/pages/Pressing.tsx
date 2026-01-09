@@ -89,7 +89,7 @@ export default function Pressing() {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Quantity Pressed</label>
-                    <Input type="number" {...form.register("quantityPressed")} />
+                    <Input type="number" {...form.register("quantityPressed", { valueAsNumber: true })} />
                   </div>
                   <Button type="submit" className="w-full mt-4" disabled={createMutation.isPending}>
                     {createMutation.isPending ? "Recording..." : "Save Record"}

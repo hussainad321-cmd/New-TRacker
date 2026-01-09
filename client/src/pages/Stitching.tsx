@@ -91,11 +91,11 @@ export default function Stitching() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Quantity Stitched</label>
-                      <Input type="number" {...form.register("quantityStitched")} />
+                      <Input type="number" {...form.register("quantityStitched", { valueAsNumber: true })} />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Rejected (Defects)</label>
-                      <Input type="number" {...form.register("rejectedCount")} className="border-red-200 focus:ring-red-200" />
+                      <Input type="number" {...form.register("rejectedCount", { valueAsNumber: true })} className="border-red-200 focus:ring-red-200" />
                     </div>
                   </div>
                   <Button type="submit" className="w-full mt-4" disabled={createMutation.isPending}>

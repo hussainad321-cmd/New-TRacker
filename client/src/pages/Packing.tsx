@@ -91,11 +91,11 @@ export default function Packing() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Box Count</label>
-                      <Input type="number" {...form.register("boxCount")} />
+                      <Input type="number" {...form.register("boxCount", { valueAsNumber: true })} />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Total Garments</label>
-                      <Input type="number" {...form.register("quantityPacked")} />
+                      <Input type="number" {...form.register("quantityPacked", { valueAsNumber: true })} />
                     </div>
                   </div>
                   <Button type="submit" className="w-full mt-4" disabled={createMutation.isPending}>
