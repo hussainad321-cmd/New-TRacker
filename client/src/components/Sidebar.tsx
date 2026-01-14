@@ -38,37 +38,39 @@ export function Sidebar() {
       )}
     >
       <div className={cn("p-4 border-b border-border flex flex-col gap-4", isCollapsed && "px-2 items-center")}>
-        <div className="flex items-center justify-between w-full">
-          {!isCollapsed && (
-            <Link href="/">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="flex items-center gap-2 cursor-pointer group"
-              >
-                <img src={logoImg} alt="Everloop Flow Logo" className="w-10 h-10 object-contain rounded transition-transform group-hover:scale-110" />
-                <h1 className="text-xl font-bold font-display text-primary tracking-tight leading-none">
-                  Everloop<br /><span className="text-foreground text-lg font-medium">Flow</span>
-                </h1>
-              </motion.div>
-            </Link>
-          )}
-          {isCollapsed && (
-            <Link href="/">
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="cursor-pointer group"
-              >
-                <img src={logoImg} alt="Everloop Flow Logo" className="w-12 h-12 object-contain rounded transition-transform group-hover:scale-110" />
-              </motion.div>
-            </Link>
-          )}
+        <div className="flex flex-col items-center w-full gap-4">
+          <Link href="/" className="w-full">
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={cn(
+                "flex flex-col items-center gap-3 cursor-pointer group transition-all duration-300",
+                isCollapsed ? "px-0" : "px-2"
+              )}
+            >
+              <img 
+                src={logoImg} 
+                alt="Everloop Flow Logo" 
+                className={cn(
+                  "object-contain rounded transition-all duration-300 group-hover:scale-105",
+                  isCollapsed ? "w-14 h-14" : "w-32 h-32"
+                )} 
+              />
+              {!isCollapsed && (
+                <div className="text-center">
+                  <h1 className="text-2xl font-bold font-display text-primary tracking-tight leading-none">
+                    Everloop
+                  </h1>
+                  <span className="text-foreground text-xl font-medium tracking-widest uppercase">Flow</span>
+                </div>
+              )}
+            </motion.div>
+          </Link>
           <Button 
             variant="ghost" 
             size="icon" 
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className={cn("transition-all", !isCollapsed ? "ml-auto" : "mt-2")}
+            className={cn("transition-all self-center hover-elevate active-elevate-2", !isCollapsed && "mt-2")}
           >
             {isCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
           </Button>
@@ -76,12 +78,12 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1">
-        {links.map((link) => {
-          const Icon = link.icon;
-          const isActive = location === link.href;
+        {links.map((item) => {
+          const Icon = item.icon;
+          const isActive = location === item.href;
           
           return (
-            <Link key={link.href} href={link.href}>
+            <Link key={item.href} href={item.href}>
               <div
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer group",
@@ -90,10 +92,10 @@ export function Sidebar() {
                     : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   isCollapsed && "justify-center px-0"
                 )}
-                title={isCollapsed ? link.label : ""}
+                title={isCollapsed ? item.label : ""}
               >
                 <Icon className={cn("w-5 h-5 shrink-0", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
-                {!isCollapsed && <span>{link.label}</span>}
+                {!isCollapsed && <span>{item.label}</span>}
               </div>
             </Link>
           );
