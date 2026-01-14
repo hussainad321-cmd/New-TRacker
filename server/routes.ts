@@ -35,6 +35,12 @@ export async function registerRoutes(
     res.json(result);
   });
 
+  app.delete("/api/yarn/:id", async (req, res) => {
+    const id = Number(req.params.id);
+    await storage.deleteYarnBatch(id);
+    res.sendStatus(204);
+  });
+
   // Knitting
   app.get(api.knitting.list.path, async (req, res) => {
     const data = await storage.getKnittingJobs();

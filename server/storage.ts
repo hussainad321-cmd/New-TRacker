@@ -23,6 +23,7 @@ export interface IStorage {
   getYarnBatches(): Promise<YarnBatch[]>;
   getYarnBatch(id: number): Promise<YarnBatch | undefined>;
   createYarnBatch(yarn: InsertYarnBatch): Promise<YarnBatch>;
+  deleteYarnBatch(id: number): Promise<void>;
 
   // Knitting
   getKnittingJobs(): Promise<KnittingJob[]>;
@@ -61,6 +62,10 @@ export class DatabaseStorage implements IStorage {
   async createYarnBatch(insertYarn: InsertYarnBatch): Promise<YarnBatch> {
     const [yarn] = await db.insert(yarnBatches).values(insertYarn).returning();
     return yarn;
+  }
+
+  async deleteYarnBatch(id: number): Promise<void> {
+    await db.delete(yarnBatches).where(eq(yarnBatches.id, id));
   }
 
   async getKnittingJobs(): Promise<KnittingJob[]> {

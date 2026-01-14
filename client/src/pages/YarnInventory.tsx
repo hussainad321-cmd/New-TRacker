@@ -5,15 +5,36 @@ import { DataTable } from "@/components/DataTable";
 import { DialogForm } from "@/components/ui/dialog-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertYarnBatchSchema } from "@shared/schema";
 import { format } from "date-fns";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
 
 export default function YarnInventory() {
   const { data: batches = [], isLoading } = useYarnBatches();
   const createMutation = useCreateYarnBatch();
+  const { toast } = useToast();
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest("DELETE", `/api/yarn/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/yarn"] });
+      toast({ title: "Success", description: "Yarn batch deleted successfully" });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: "Error", 
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
 
   const form = useForm({
     resolver: zodResolver(insertYarnBatchSchema),
@@ -87,6 +108,25 @@ export default function YarnInventory() {
               { header: "Weight", accessor: (row) => `${row.weightKg} Kg` },
               { header: "Supplier", accessor: "supplier" },
               { header: "Received", accessor: (row) => row.receivedAt ? format(new Date(row.receivedAt), 'MMM dd, yyyy') : '-' },
+              { 
+                header: "Actions", 
+                accessor: (row) => (
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    onClick={() => {
+                      if (confirm("Are you sure you want to delete this yarn batch?")) {
+                        deleteMutation.mutate(row.id);
+                      }
+                    }}
+                    disabled={deleteMutation.isPending}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                ),
+                className: "w-16"
+              }
             ]}
           />
           </div>
