@@ -145,7 +145,7 @@ export async function registerRoutes(
   // Seed Data
   const existingYarn = await storage.getYarnBatches();
   if (existingYarn.length === 0) {
-    await storage.createYarnBatch({
+    const yarn1 = await storage.createYarnBatch({
       batchCode: "YRN-001",
       color: "Blue",
       weightKg: 500,
@@ -158,7 +158,7 @@ export async function registerRoutes(
       supplier: "Yarn Masters",
     });
     await storage.createKnittingJob({
-      yarnBatchId: 1,
+      yarnBatchId: yarn1.id,
       fabricType: "Jersey",
       weightUsed: 100,
       fabricProduced: 95,
