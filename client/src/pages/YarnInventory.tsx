@@ -1,4 +1,5 @@
 import { useYarnBatches, useCreateYarnBatch } from "@/hooks/use-manufacturing";
+import { useSearch } from "@/hooks/use-search";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
@@ -13,11 +14,18 @@ import { format } from "date-fns";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
+import { filterBySearchQuery } from "@/lib/search-utils";
+import { useMemo } from "react";
 
 export default function YarnInventory() {
   const { data: batches = [], isLoading } = useYarnBatches();
   const createMutation = useCreateYarnBatch();
   const { toast } = useToast();
+  const { searchQuery } = useSearch();
+
+  const filteredBatches = useMemo(() => {
+    return filterBySearchQuery(batches, searchQuery, ['batchCode', 'color', 'supplier']);
+  }, [batches, searchQuery]);
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
@@ -100,7 +108,7 @@ export default function YarnInventory() {
 
           <DataTable 
             isLoading={isLoading}
-            data={batches}
+            data={filteredBatches}
             columns={[
               { header: "ID", accessor: "id", className: "w-16" },
               { header: "Batch Code", accessor: "batchCode", className: "font-mono font-medium" },

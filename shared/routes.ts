@@ -2,16 +2,24 @@ import { z } from 'zod';
 import { 
   insertYarnBatchSchema, 
   insertKnittingJobSchema, 
+  insertDyeingJobSchema,
   insertCuttingJobSchema, 
   insertStitchingJobSchema, 
   insertPressingJobSchema, 
   insertPackingJobSchema,
+  insertContainerSchema,
+  insertRawMaterialPurchaseSchema,
+  insertFactoryCostSchema,
   yarnBatches,
   knittingJobs,
+  dyeingJobs,
   cuttingJobs,
   stitchingJobs,
   pressingJobs,
-  packingJobs
+  packingJobs,
+  containers,
+  rawMaterialPurchases,
+  factoryCosts
 } from './schema';
 
 export const errorSchemas = {
@@ -68,6 +76,24 @@ export const api = {
       input: insertKnittingJobSchema,
       responses: {
         201: z.custom<typeof knittingJobs.$inferSelect>(),
+        400: errorSchemas.validation,
+      },
+    }
+  },
+  dyeing: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/dyeing',
+      responses: {
+        200: z.array(z.custom<typeof dyeingJobs.$inferSelect>()),
+      },
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/dyeing',
+      input: insertDyeingJobSchema,
+      responses: {
+        201: z.custom<typeof dyeingJobs.$inferSelect>(),
         400: errorSchemas.validation,
       },
     }
@@ -144,6 +170,24 @@ export const api = {
       },
     }
   },
+  container: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/container',
+      responses: {
+        200: z.array(z.custom<typeof containers.$inferSelect>()),
+      },
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/container',
+      input: insertContainerSchema,
+      responses: {
+        201: z.custom<typeof containers.$inferSelect>(),
+        400: errorSchemas.validation,
+      },
+    }
+  },
   dashboard: {
     stats: {
       method: 'GET' as const,
@@ -156,6 +200,42 @@ export const api = {
           totalStitchedPieces: z.number(),
           totalPackedPieces: z.number(),
         }),
+      },
+    }
+  },
+  rawMaterialPurchase: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/raw-material',
+      responses: {
+        200: z.array(z.custom<typeof rawMaterialPurchases.$inferSelect>()),
+      },
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/raw-material',
+      input: insertRawMaterialPurchaseSchema,
+      responses: {
+        201: z.custom<typeof rawMaterialPurchases.$inferSelect>(),
+        400: errorSchemas.validation,
+      },
+    }
+  },
+  factoryCost: {
+    list: {
+      method: 'GET' as const,
+      path: '/api/factory-cost',
+      responses: {
+        200: z.array(z.custom<typeof factoryCosts.$inferSelect>()),
+      },
+    },
+    create: {
+      method: 'POST' as const,
+      path: '/api/factory-cost',
+      input: insertFactoryCostSchema,
+      responses: {
+        201: z.custom<typeof factoryCosts.$inferSelect>(),
+        400: errorSchemas.validation,
       },
     }
   }

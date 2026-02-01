@@ -1,4 +1,5 @@
 import { usePackingJobs, useCreatePackingJob, usePressingJobs } from "@/hooks/use-manufacturing";
+import { useSearch } from "@/hooks/use-search";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
@@ -11,11 +12,18 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertPackingJobSchema } from "@shared/schema";
 import { format } from "date-fns";
+import { filterBySearchQuery } from "@/lib/search-utils";
+import { useMemo } from "react";
 
 export default function Packing() {
   const { data: jobs = [], isLoading } = usePackingJobs();
   const { data: pressingJobs = [] } = usePressingJobs();
   const createMutation = useCreatePackingJob();
+  const { searchQuery } = useSearch();
+
+  const filteredJobs = useMemo(() => {
+    return filterBySearchQuery(jobs, searchQuery, ['size', 'status']);
+  }, [jobs, searchQuery]);
 
   const form = useForm({
     resolver: zodResolver(insertPackingJobSchema),
@@ -109,7 +117,7 @@ export default function Packing() {
 
           <DataTable 
             isLoading={isLoading}
-            data={jobs}
+            data={filteredJobs}
             columns={[
               { header: "ID", accessor: "id", className: "w-16" },
               { header: "Size", accessor: "size" },

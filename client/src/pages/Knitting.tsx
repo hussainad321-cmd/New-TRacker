@@ -1,4 +1,5 @@
 import { useKnittingJobs, useCreateKnittingJob, useYarnBatches } from "@/hooks/use-manufacturing";
+import { useSearch } from "@/hooks/use-search";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
@@ -11,11 +12,18 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertKnittingJobSchema } from "@shared/schema";
 import { format } from "date-fns";
+import { filterBySearchQuery } from "@/lib/search-utils";
+import { useMemo } from "react";
 
 export default function Knitting() {
   const { data: jobs = [], isLoading } = useKnittingJobs();
   const { data: yarnBatches = [] } = useYarnBatches();
   const createMutation = useCreateKnittingJob();
+  const { searchQuery } = useSearch();
+
+  const filteredJobs = useMemo(() => {
+    return filterBySearchQuery(jobs, searchQuery, ['fabricType', 'size', 'status']);
+  }, [jobs, searchQuery]);
 
   const form = useForm({
     resolver: zodResolver(insertKnittingJobSchema),
@@ -115,7 +123,7 @@ export default function Knitting() {
 
           <DataTable 
             isLoading={isLoading}
-            data={jobs}
+            data={filteredJobs}
             columns={[
               { header: "Job ID", accessor: "id", className: "w-16" },
               { header: "Fabric Type", accessor: "fabricType", className: "font-medium" },

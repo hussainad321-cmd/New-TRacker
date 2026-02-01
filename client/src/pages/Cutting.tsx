@@ -1,4 +1,5 @@
-import { useCuttingJobs, useCreateCuttingJob, useKnittingJobs } from "@/hooks/use-manufacturing";
+import { useCuttingJobs, useCreateCuttingJob, useDyeingJobs } from "@/hooks/use-manufacturing";
+import { useSearch } from "@/hooks/use-search";
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 import { DataTable } from "@/components/DataTable";
@@ -11,16 +12,23 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertCuttingJobSchema } from "@shared/schema";
 import { format } from "date-fns";
+import { filterBySearchQuery } from "@/lib/search-utils";
+import { useMemo } from "react";
 
 export default function Cutting() {
   const { data: jobs = [], isLoading } = useCuttingJobs();
-  const { data: knittingJobs = [] } = useKnittingJobs();
+  const { data: dyeingJobs = [] } = useDyeingJobs();
   const createMutation = useCreateCuttingJob();
+  const { searchQuery } = useSearch();
+
+  const filteredJobs = useMemo(() => {
+    return filterBySearchQuery(jobs, searchQuery, ['styleCode', 'size', 'status']);
+  }, [jobs, searchQuery]);
 
   const form = useForm({
     resolver: zodResolver(insertCuttingJobSchema),
     defaultValues: {
-      knittingJobId: 0,
+      dyeingJobId: 0,
       styleCode: "",
       size: "M",
       quantityPieces: 0,
@@ -57,19 +65,19 @@ export default function Cutting() {
               {(close) => (
                 <form onSubmit={form.handleSubmit((d) => onSubmit(d, close))} className="space-y-4 pt-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Source Fabric (Knitting Job)</label>
+                    <label className="text-sm font-medium">Source Fabric (Dyeing Job)</label>
                     <Controller
                       control={form.control}
-                      name="knittingJobId"
+                      name="dyeingJobId"
                       render={({ field }) => (
                         <Select onValueChange={(val) => field.onChange(Number(val))}>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select Knitting Job" />
+                            <SelectValue placeholder="Select Dyeing Job" />
                           </SelectTrigger>
                           <SelectContent>
-                            {knittingJobs.map(job => (
+                            {dyeingJobs.map(job => (
                               <SelectItem key={job.id} value={String(job.id)}>
-                                Job #{job.id} - {job.fabricType} ({job.fabricProduced}kg)
+                                Job #{job.id} - {job.dyeColor || "No color"} ({job.weightKgDyed}kg)
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -114,7 +122,7 @@ export default function Cutting() {
 
           <DataTable 
             isLoading={isLoading}
-            data={jobs}
+            data={filteredJobs}
             columns={[
               { header: "ID", accessor: "id", className: "w-16" },
               { header: "Style Code", accessor: "styleCode", className: "font-mono font-bold text-primary" },

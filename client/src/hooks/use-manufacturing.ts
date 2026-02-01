@@ -84,6 +84,47 @@ export function useCreateKnittingJob() {
 }
 
 // ============================================
+// DYEING
+// ============================================
+export function useDyeingJobs() {
+  return useQuery({
+    queryKey: [api.dyeing.list.path],
+    queryFn: async () => {
+      const res = await fetch(api.dyeing.list.path, { credentials: "include" });
+      if (!res.ok) throw new Error("Failed to fetch dyeing jobs");
+      return api.dyeing.list.responses[200].parse(await res.json());
+    },
+  });
+}
+
+export function useCreateDyeingJob() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: any) => {
+      const payload = {
+        ...data,
+        knittingJobId: Number(data.knittingJobId),
+        weightKgDyed: Number(data.weightKgDyed),
+        rollsPerBatch: Number(data.rollsPerBatch),
+      };
+
+      const res = await fetch(api.dyeing.create.path, {
+        method: api.dyeing.create.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        credentials: "include",
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Failed to create dyeing job");
+      }
+      return api.dyeing.create.responses[201].parse(await res.json());
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [api.dyeing.list.path] }),
+  });
+}
+
+// ============================================
 // CUTTING
 // ============================================
 export function useCuttingJobs() {
@@ -103,7 +144,7 @@ export function useCreateCuttingJob() {
     mutationFn: async (data: any) => {
       const payload = {
         ...data,
-        knittingJobId: Number(data.knittingJobId),
+        dyeingJobId: Number(data.dyeingJobId),
         quantityPieces: Number(data.quantityPieces),
         wasteKg: Number(data.wasteKg || 0),
       };
@@ -231,6 +272,118 @@ export function useCreatePackingJob() {
       return api.packing.create.responses[201].parse(await res.json());
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: [api.packing.list.path] }),
+  });
+}
+
+// ============================================
+// CONTAINER
+// ============================================
+export function useContainers() {
+  return useQuery({
+    queryKey: [api.container.list.path],
+    queryFn: async () => {
+      const res = await fetch(api.container.list.path, { credentials: "include" });
+      if (!res.ok) throw new Error("Failed to fetch containers");
+      return api.container.list.responses[200].parse(await res.json());
+    },
+  });
+}
+
+export function useCreateContainer() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: any) => {
+      const payload = {
+        ...data,
+        packingJobId: Number(data.packingJobId),
+        numberofBales: Number(data.numberofBales),
+        quantityPerBale: Number(data.quantityPerBale),
+      };
+
+      const res = await fetch(api.container.create.path, {
+        method: api.container.create.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to create container");
+      return api.container.create.responses[201].parse(await res.json());
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [api.container.list.path] }),
+  });
+}
+
+// ============================================
+// RAW MATERIAL PURCHASES
+// ============================================
+export function useRawMaterialPurchases() {
+  return useQuery({
+    queryKey: [api.rawMaterialPurchase.list.path],
+    queryFn: async () => {
+      const res = await fetch(api.rawMaterialPurchase.list.path, { credentials: "include" });
+      if (!res.ok) throw new Error("Failed to fetch raw material purchases");
+      return api.rawMaterialPurchase.list.responses[200].parse(await res.json());
+    },
+  });
+}
+
+export function useCreateRawMaterialPurchase() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: any) => {
+      const payload = {
+        ...data,
+        quantity: Number(data.quantity),
+        costPerUnit: Number(data.costPerUnit),
+        totalCost: Number(data.totalCost),
+      };
+
+      const res = await fetch(api.rawMaterialPurchase.create.path, {
+        method: api.rawMaterialPurchase.create.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to create raw material purchase");
+      return api.rawMaterialPurchase.create.responses[201].parse(await res.json());
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [api.rawMaterialPurchase.list.path] }),
+  });
+}
+
+// ============================================
+// FACTORY COSTS
+// ============================================
+export function useFactoryCosts() {
+  return useQuery({
+    queryKey: [api.factoryCost.list.path],
+    queryFn: async () => {
+      const res = await fetch(api.factoryCost.list.path, { credentials: "include" });
+      if (!res.ok) throw new Error("Failed to fetch factory costs");
+      return api.factoryCost.list.responses[200].parse(await res.json());
+    },
+  });
+}
+
+export function useCreateFactoryCost() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: any) => {
+      const payload = {
+        ...data,
+        amount: Number(data.amount),
+      };
+
+      const res = await fetch(api.factoryCost.create.path, {
+        method: api.factoryCost.create.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error("Failed to create factory cost");
+      return api.factoryCost.create.responses[201].parse(await res.json());
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [api.factoryCost.list.path] }),
   });
 }
 
