@@ -123,7 +123,7 @@ export class DatabaseStorage implements IStorage {
    */
   async getUser(id: number): Promise<User | undefined> {
     try {
-      validateInput(id, "number", "User ID");
+      validateInput.isValidNumber(id, "User ID");
       const result = await db.select().from(users).where(eq(users.id, id));
       return result[0];
     } catch (error) {
@@ -139,7 +139,7 @@ export class DatabaseStorage implements IStorage {
    */
   async getUserByUsername(username: string): Promise<User | undefined> {
     try {
-      validateInput(username, "string", "Username");
+      validateInput.isValidString(username, "Username");
       const result = await db.select().from(users).where(eq(users.username, username));
       return result[0];
     } catch (error) {
@@ -157,7 +157,7 @@ export class DatabaseStorage implements IStorage {
   async createUser(userData: InsertUser): Promise<User> {
     try {
       // Validate required fields
-      validateInput(userData.username, "string", "Username");
+      validateInput.isValidString(userData.username, "Username");
       if (!userData.username || userData.username.trim().length === 0) {
         throw new AppError("Username cannot be empty", 400);
       }
@@ -191,7 +191,7 @@ export class DatabaseStorage implements IStorage {
    */
   async updateUser(id: number, data: Partial<InsertUser>): Promise<User> {
     try {
-      validateInput(id, "number", "User ID");
+      validateInput.isValidNumber(id, "User ID");
       
       // If updating username, check it's not taken
       if (data.username) {
@@ -226,7 +226,7 @@ export class DatabaseStorage implements IStorage {
    */
   async deleteUser(id: number): Promise<void> {
     try {
-      validateInput(id, "number", "User ID");
+      validateInput.isValidNumber(id, "User ID");
       logger.info(`Deleting user ${id}`);
       await db.delete(users).where(eq(users.id, id));
     } catch (error) {

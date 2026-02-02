@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import dotenv from "dotenv";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
@@ -98,8 +99,20 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     await initializeDb();
     logger.info("✅ Database initialized successfully");
 
+    // Ensure Postgres users table exists (if DATABASE_URL configured)
+    try {
+      const { ensureUsersTable } = await import("./auth");
+      await ensureUsersTable();
+    } catch (e) {
+      // ignore if auth module cannot initialize (will be handled later)
+      logger.debug("ensureUsersTable skipped", { error: String(e) });
+    }
+
     // Register all API routes
     logger.info("Registering API routes...");
+    // mount auth routes
+    const { default: authRouter } = await import("./auth");
+    app.use(authRouter);
     await registerRoutes(httpServer, app);
     logger.info("✅ API routes registered successfully");
 
@@ -113,10 +126,14 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       await setupVite(httpServer, app);
     }
 
+    // Load environment variables
+    dotenv.config();
+
     // Start listening for HTTP requests
     const port = parseInt(process.env.PORT || "5000", 10);
-    httpServer.listen(port, "127.0.0.1", () => {
-      logger.info(`✅ Server is listening on http://127.0.0.1:${port}`);
+    const host = process.env.HOST || "0.0.0.0";
+    httpServer.listen(port, host, () => {
+      logger.info(`✅ Server is listening on http://${host}:${port}`);
       logger.info("Ready to accept requests!");
     });
   } catch (startupError) {

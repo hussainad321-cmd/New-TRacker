@@ -17,7 +17,6 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import logoImg from "@assets/4679544a-e6a2-40e0-873b-465567d253c9_1767972253992.jpeg";
 import { motion } from "framer-motion";
 
 const productionLinks = [
@@ -60,8 +59,8 @@ export function Sidebar() {
               )}
             >
               <img 
-                src={logoImg} 
-                alt="Everloop Flow Logo" 
+                src="/ad-knitwear-logo.png"
+                alt="AD Knitwear Logo" 
                 className={cn(
                   "object-contain rounded transition-all duration-300 group-hover:scale-105",
                   isCollapsed ? "w-14 h-14" : "w-20 h-20"
@@ -70,7 +69,7 @@ export function Sidebar() {
               {!isCollapsed && (
                 <div className="text-center">
                   <h1 className="text-lg font-bold font-display text-primary tracking-tight leading-none">
-                    Everloop
+                    AD Knitwear
                   </h1>
                   <span className="text-foreground text-sm font-medium tracking-widest uppercase">Flow</span>
                 </div>

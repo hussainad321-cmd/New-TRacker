@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
 import { logger, AppError, sendErrorResponse, asyncHandler } from "./error-handler";
+import { authMiddleware } from "./auth";
 
 /**
  * REGISTER ALL API ROUTES
@@ -15,6 +16,13 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   logger.info("Registering API routes...");
+
+  // Protect all /api routes except /api/auth
+  app.use((req, res, next) => {
+    if (req.path.startsWith("/api/auth")) return next();
+    if (req.path.startsWith("/api")) return authMiddleware(req, res, next);
+    return next();
+  });
 
   // ============================================================
   // USER MANAGEMENT ROUTES
@@ -607,7 +615,7 @@ export async function registerRoutes(
       logger.info("✅ Seed data created successfully");
     }
   } catch (seedError) {
-    logger.warn("Could not create seed data", seedError);
+      logger.warn("Could not create seed data", seedError as any);
     // Don't crash the app if seed data creation fails
     // The app will still work, just without sample data
   }
