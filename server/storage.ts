@@ -11,7 +11,7 @@ import {
   type RawMaterialPurchase, type InsertRawMaterialPurchase,
   type FactoryCost, type InsertFactoryCost,
   type User, type InsertUser
-} from "@shared/schema";
+} from "../shared/schema";
 import { db } from "./db";
 import { eq, sql } from "drizzle-orm";
 import { logger, AppError, validateInput, formatDatabaseError } from "./error-handler";
