@@ -4,13 +4,10 @@
     "module": "CommonJS",
     "lib": ["ES2022"],
     "outDir": "dist",
-    "rootDir": "./",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
     "moduleResolution": "node",
     "types": ["node"],
     "baseUrl": ".",
@@ -18,6 +15,6 @@
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["server/**/*", "shared/**/*"],
+  "include": ["server/**/*.ts", "shared/**/*.ts"],
   "exclude": ["node_modules", "dist", "client", "vite.config.ts"]
 }

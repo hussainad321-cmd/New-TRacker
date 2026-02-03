@@ -122,8 +122,7 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       serveStatic(app);
     } else {
       logger.info("Running in DEVELOPMENT mode - setting up Vite");
-      const { setupVite } = await import("./vite");
-      await setupVite(httpServer, app);
+      
     }
 
     // Load environment variables
