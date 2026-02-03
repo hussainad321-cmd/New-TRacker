@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import express, { type Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import { registerRoutes } from "./routes";

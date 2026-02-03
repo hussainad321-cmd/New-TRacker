@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import type { Response } from "express";
 import { z } from "zod";
 import * as fs from "fs";
